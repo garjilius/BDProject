@@ -4,7 +4,7 @@ var session = driver.session();
 
 function rightQuery(){
     console.log("getRightQuery");
-
+    flushTable();
     //Prima Selezione
     let checkArtista = document.getElementById("checkArtista").checked;
     let checkBrano = document.getElementById("checkBrano").checked;
@@ -35,11 +35,13 @@ function rightQuery(){
         if(checkAnno) {
             matchAnnoBrano(chiaveRicerca);
         }
+        if(checkDurata) {
+            matchDurataSimile(chiaveRicerca);
+        }
     }
 }
 
 function matchToSimilarBand(nomeBand) {
-    flushTable();
 //const collectedNames = [];
     let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\'})-[r:SIMILAR_TO]->(artist2:Artist) RETURN DISTINCT artist2.name LIMIT 20';
     runQuery(query);
@@ -53,31 +55,30 @@ function matchGenereBand(nomeBand) {
 }
 
 function matchGenereBrano(nomeBrano) {
-    flushTable();
 //const collectedNames = [];
     let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[r:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (artist:Artist)-[:OWNS]->(track2) RETURN DISTINCT artist.name LIMIT 20';
     runQuery(query);
 }
 
 function matchGruppoSimileBrano(nomeBrano) {
-    flushTable();
 //const collectedNames = [];
     let query = 'DA FARE';
     runQuery(query);
 }
 
 function matchDurataSimile(nomeBrano) {
-    flushTable();
 //const collectedNames = [];
-    let query = 'DA FARE';
+    let query = 'Match (track:Music {title:\''+nomeBrano+'\'})\n' +
+        'MATCH (track2:Music) WHERE toInt(track2.duration)-toInt(track.duration) <30 \n' +
+        'MATCH (track2) WHERE  toInt(track.duration)-toInt(track2.duration) <30 \n' +
+        'Return DISTINCT track2.title LIMIT 20';
     runQuery(query);
 }
 
 function matchAnnoBrano(nomeBrano) {
-    flushTable();
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})-[:RELEASED_IN]->(year1:Year) \n' +
-        'Match (track2:Music)-[r:RELEASED_IN]->(year2:Year {year:year1.year}) RETURN DISTINCT track2.title';
+        'Match (track2:Music)-[r:RELEASED_IN]->(year2:Year {year:year1.year}) RETURN DISTINCT track2.title LIMIT 20';
     runQuery(query);
 }
 
