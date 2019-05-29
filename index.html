@@ -5,6 +5,10 @@
     <!-- Direct reference -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.rawgit.com/neo4j/neo4j-javascript-driver/1.4/lib/browser/neo4j-web.min.js"></script>
+    <script src="gestioneBottoni.js"></script>
+    <script src="getQuery.js"></script>
+    <script src="manageTable.js"></script>
+
 
 
     <!--SEARCHTHEME-->
@@ -12,7 +16,6 @@
     <link href="extra.css" rel="stylesheet" id="extra-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="gestioneBottoni.js?<?php echo date('l jS \of F Y h:i:s A'); ?>"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
 
@@ -42,7 +45,9 @@
     <div class="container-fluid text-center" id="divSimilitudine">
     </div>
 
-</div><div class="container-fluid text-center container">
+</div>
+
+<div class="container-fluid text-center container">
     <br/>
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -55,18 +60,37 @@
                     <div class="col">
                         <input class="form-control form-control-lg form-control-borderless" id="barraRicerca" type="search" placeholder="Nome album o brano">
                     </div>
+                    <div class="col-auto">
+                        <button class="btn btn-lg btn-success" >Search</button>
+                    </div>
                 </div>
             </form>
         </div>
         <!--end of col-->
     </div>
 </div>
+
+<div class="container" id="suggerimentiDIV"><BR><BR><BR>
+    <div class="table-responsive">
+        <table id="tabSuggerimenti" class="table-striped table-bordered table table-hover table-responsive">
+            <thead class="thead-dark">
+            <tr>
+                <th style="width: 5.0%" id="thSuggerimenti"><h3>Suggeriti per te:</h3>   </th>
+            </tr>
+            </thead>
+            <tbody id="tabSuggerimentiBody">
+            <tr><td>Esempio</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <div class="container" id="queriesDIV"><BR><BR><BR>
     <div class="table-responsive">
         <table id="tabQuery" class="table-striped table-bordered table table-hover table-responsive">
             <thead class="thead-dark">
             <tr>
-                <th style="width: 5.0%" id="thId"><h3>Lista Query:</h3>   </th>
+                <th style="width: 5.0%" id="thQuery"><h3>Lista Query:</h3>   </th>
             </tr>
             </thead>
             <tbody id="tableQueryBody">
