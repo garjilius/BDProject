@@ -8,6 +8,7 @@
     <script src="gestioneBottoni.js"></script>
     <script src="getQuery.js"></script>
     <script src="manageTable.js"></script>
+    <script src="utilities.js"></script>
 
 
 
@@ -61,7 +62,7 @@
                         <input class="form-control form-control-lg form-control-borderless" id="barraRicerca" type="search" placeholder="Nome album o brano">
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-lg btn-success" >Search</button>
+                        <button type="button" class="btn btn-lg btn-success" onclick="addRowToTable(document.getElementById('barraRicerca').value)">Search</button>
                     </div>
                 </div>
             </form>
