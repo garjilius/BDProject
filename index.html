@@ -12,6 +12,7 @@
     <link href="extra.css" rel="stylesheet" id="extra-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="gestioneBottoni.js?<?php echo date('l jS \of F Y h:i:s A'); ?>"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
 
@@ -20,13 +21,16 @@
 <body>
 <div class="container-fluid text-center">
     <div class="container"><BR><BR><BR>
-        <h2>Trova Musica Simile ai tuoi gusti!<BR></h2>
+        <h2>
+        Trova musica simile ai tuoi gusti!
+            <small class="text-muted"><BR>Per prima cosa, seleziona un artista/gruppo o un brano di riferimento</small>
+        </h2>
     </div>
 
     <div class="container-fluid text-center">
         <legend>Scegli se filtrare per brano o per artista</legend>
         <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="myVar = setTimeout(filtroArtistaBrano, 100)">
-            <label class="btn btn-secondary active">
+            <label class="btn btn-secondary">
                 <input type="radio" name="options" id="checkArtista" autocomplete="off" checked > Artista
             </label>
             <label class="btn btn-secondary">
@@ -36,21 +40,6 @@
     </div>
 
     <div class="container-fluid text-center" id="divSimilitudine">
-        <legend>Scegli i criteri di similitudine</legend>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-primary active" id="labelAnno">
-                <input type="checkbox" name="options" id="checkAnno" autocomplete="off" checked> Anno
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox" name="options" id="checkGenere" autocomplete="off"> Genere
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox" name="options" id="checkGruppo" autocomplete="off"> Gruppo
-            </label>
-            <label class="btn btn-primary">
-                <input type="checkbox" name="options" id="checkDurata" autocomplete="off"> Durata Brano
-            </label>
-        </div>
     </div>
 
 </div><div class="container-fluid text-center container">
@@ -66,11 +55,6 @@
                     <div class="col">
                         <input class="form-control form-control-lg form-control-borderless" id="barraRicerca" type="search" placeholder="Nome album o brano">
                     </div>
-                    <!--end of col-->
-                    <div class="col-auto">
-                        <button class="btn btn-lg btn-success" type="submit">Search</button>
-                    </div>
-                    <!--end of col-->
                 </div>
             </form>
         </div>
@@ -115,7 +99,7 @@
 
         if(document.getElementById("checkBrano").checked) {
             document.getElementById("barraRicerca").placeholder = 'Inserisci il nome del brano';
-            
+
             document.getElementById("divSimilitudine").innerHTML ="         <legend>Scegli i criteri di similitudine</legend>\n" +
                 "        <div class=\"btn-group btn-group-toggle\" data-toggle=\"buttons\">\n" +
                 "            <label class=\"btn btn-primary active\" id=\"labelAnno\">\n" +

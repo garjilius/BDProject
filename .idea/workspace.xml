@@ -20,8 +20,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="316">
-              <caret line="117" column="12" lean-forward="true" selection-start-line="117" selection-start-column="12" selection-end-line="117" selection-end-column="12" />
+            <state relative-caret-position="315">
+              <caret line="23" column="11" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gestioneBottoni.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="36" column="1" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -29,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/ShareMyHouse/ShareMyHouseCode/riepilogo.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="66" column="17" selection-start-line="66" selection-end-line="67" />
+            <state relative-caret-position="285">
+              <caret line="19" column="114" selection-start-line="19" selection-start-column="68" selection-end-line="19" selection-end-column="114" />
             </state>
           </provider>
         </entry>
@@ -72,6 +81,7 @@
         <option value="$PROJECT_DIR$/test_client.js" />
         <option value="$PROJECT_DIR$/getQueryExample.js" />
         <option value="$PROJECT_DIR$/extra.css" />
+        <option value="$PROJECT_DIR$/gestioneBottoni.js" />
         <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
@@ -157,12 +167,12 @@
       <workItem from="1558884006684" duration="381000" />
       <workItem from="1558884766280" duration="407000" />
       <workItem from="1558885868328" duration="5137000" />
-      <workItem from="1559147137280" duration="4867000" />
+      <workItem from="1559147137280" duration="5316000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12953000" />
+    <option name="totallyTimeSpent" value="13402000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="15" y="23" width="1440" height="830" extended-state="0" />
@@ -217,15 +227,22 @@
     </entry>
     <entry file="file://$USER_HOME$/ShareMyHouse/ShareMyHouseCode/riepilogo.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="66" column="17" selection-start-line="66" selection-end-line="67" />
+        <state relative-caret-position="285">
+          <caret line="19" column="114" selection-start-line="19" selection-start-column="68" selection-end-line="19" selection-end-column="114" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gestioneBottoni.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="36" column="1" selection-start-line="36" selection-start-column="1" selection-end-line="36" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="117" column="12" lean-forward="true" selection-start-line="117" selection-start-column="12" selection-end-line="117" selection-end-column="12" />
+        <state relative-caret-position="315">
+          <caret line="23" column="11" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
         </state>
       </provider>
     </entry>
