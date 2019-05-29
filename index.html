@@ -35,7 +35,7 @@
         <legend>Scegli se filtrare per brano o per artista</legend>
         <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="myVar = setTimeout(filtroArtistaBrano, 100)">
             <label class="btn btn-secondary">
-                <input type="radio" name="options" id="checkArtista" autocomplete="off" checked > Artista
+                <input type="radio" name="options" id="checkArtista" autocomplete="off" > Artista
             </label>
             <label class="btn btn-secondary">
                 <input type="radio" name="options" id="checkBrano" autocomplete="off" > Brano
@@ -43,7 +43,7 @@
         </div>
     </div>
 
-    <div class="container-fluid text-center" id="divSimilitudine">
+    <div class="container-fluid text-center" id="divSimilitudine" >
     </div>
 
 </div>
@@ -51,21 +51,21 @@
 <div class="container-fluid text-center container">
     <br/>
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <form class="card card-sm">
-                <div class="card-body row no-gutters align-items-center">
-                    <div class="col-auto">
-                        <i class="fas fa-search h4 text-body"></i>
+        <div class="col-lg-8" id="divBarraRicerca">
+                <form class="card card-sm">
+                    <div class="card-body row no-gutters align-items-center">
+                        <div class="col-auto">
+                            <i class="fas fa-search h4 text-body"></i>
+                        </div>
+                        <!--end of col-->
+                        <div class="col">
+                            <input class="form-control form-control-lg form-control-borderless" id="barraRicerca" type="search" placeholder="Nome album o brano">
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn btn-lg btn-success" onclick="rightQuery()">Search</button>
+                        </div>
                     </div>
-                    <!--end of col-->
-                    <div class="col">
-                        <input class="form-control form-control-lg form-control-borderless" id="barraRicerca" type="search" placeholder="Nome album o brano">
-                    </div>
-                    <div class="col-auto">
-                        <button type="button" class="btn btn-lg btn-success" onclick="rightQuery()">Search</button>
-                    </div>
-                </div>
-            </form>
+                </form>
         </div>
         <!--end of col-->
     </div>
@@ -104,42 +104,6 @@
 
 <Script>
 
-    function filtroArtistaBrano() {
-        if(document.getElementById("checkArtista").checked) {
-            document.getElementById("barraRicerca").placeholder = 'Inserisci il nome dell\'artista o del gruppo';
 
-            document.getElementById("divSimilitudine").innerHTML = "        <legend>Scegli i criteri di similitudine</legend>\n" +
-                "        <div class=\"btn-group btn-group-toggle\" data-toggle=\"buttons\">\n" +
-                "            <label class=\"btn btn-primary\">\n" +
-                "                <input type=\"checkbox\" name=\"options\" id=\"checkGenere\" autocomplete=\"off\"> Genere\n" +
-                "            </label>\n" +
-                "            <label class=\"btn btn-primary\">\n" +
-                "                <input type=\"checkbox\" name=\"options\" id=\"checkGruppo\" autocomplete=\"off\"> Gruppo\n" +
-                "            </label>\n" +
-                "        </div>";
-
-
-        }
-
-        if(document.getElementById("checkBrano").checked) {
-            document.getElementById("barraRicerca").placeholder = 'Inserisci il nome del brano';
-
-            document.getElementById("divSimilitudine").innerHTML ="         <legend>Scegli i criteri di similitudine</legend>\n" +
-                "        <div class=\"btn-group btn-group-toggle\" data-toggle=\"buttons\">\n" +
-                "            <label class=\"btn btn-primary active\" id=\"labelAnno\">\n" +
-                "                <input type=\"checkbox\" name=\"options\" id=\"checkAnno\" autocomplete=\"off\" checked> Anno\n" +
-                "            </label>\n" +
-                "            <label class=\"btn btn-primary\">\n" +
-                "                <input type=\"checkbox\" name=\"options\" id=\"checkGenere\" autocomplete=\"off\"> Genere\n" +
-                "            </label>\n" +
-                "            <label class=\"btn btn-primary\">\n" +
-                "                <input type=\"checkbox\" name=\"options\" id=\"checkGruppo\" autocomplete=\"off\"> Gruppo\n" +
-                "            </label>\n" +
-                "            <label class=\"btn btn-primary\">\n" +
-                "                <input type=\"checkbox\" name=\"options\" id=\"checkDurata\" autocomplete=\"off\"> Durata Brano\n" +
-                "            </label>\n" +
-                "        </div>";
-        }
-    }
 </Script>
 
