@@ -100,7 +100,7 @@ function matchAnnoBrano(nomeBrano) {
 
 function matchBrani(nomeBrano) {
     flushTable();
-    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (track2)<-[:OWNS]-(artist2:Artist) return distinct artist2.name, track2.title, track2.duration LIMIT 20';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (track2)<-[:OWNS]-(artist2:Artist) MATCH (track2)-[:IN]->(album:Album) return distinct artist2.name, album.name, track2.title, track2.duration LIMIT 20';
     runQueryBrano(query);
 }
 
@@ -131,14 +131,12 @@ function runQueryBrano(query) {
     result.subscribe({
         onNext: record => {
             const artistName = record.get(0);
-            const trackName = record.get(1);
-            const trackDuration = record.get(2);
+            const albumName = record.get(1)
+            const trackName = record.get(2);
+            const trackDuration = record.get(3);
 
-            //collectedNames.push(name);
-            addRowToTableBrano(artistName,trackName,trackDuration);
-            //console.log(artistName);
-          //  console.log(trackName);
-          //  console.log(trackDuration);
+            addRowToTableBrano(artistName,trackName,trackDuration,albumName);
+
 
         },
         onCompleted: () => {
