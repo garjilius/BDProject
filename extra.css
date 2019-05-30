@@ -57,41 +57,13 @@ td{
     text-align: center !important;
 }
 
-#tavolaSegnalazioni tbody tr td
-{
-    text-align:center !important;
-    vertical-align:middle !important;
-    height: 50px !important;
+.tab-contentOverride {
+    width: 80%;
+    max-width: 100%;
 }
-
-#tavolaCittadini tbody tr td
-{
-    text-align:center !important;
-    vertical-align:middle !important;
-    height: 50px !important;
-}
-
-table.row-clickable tbody tr td a {
-    display: block;
-    padding: 8px;
-}
-
-.legenda {
-    text-align: center;
-}
-
-#googleMap {
-    margin: auto;
-    padding-bottom: 20%;
-    height: 400px;
-    width: 100%;
-}
-
-.bottoniRiscontro {  width: 70%  !important; }
-
-tr {cursor: pointer;}
 
 thead {text-align: center;}
+
 
 /* Set black background color, white text and some padding */
 footer {
@@ -132,9 +104,4 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-}
-
-#bottoniRiscontro {
-    margin: auto;
-    width: 100%;
 }

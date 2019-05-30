@@ -5,13 +5,15 @@ function addRowToTable(valore) {
     cell1.innerHTML = valore;
 }
 
-function addRowToTableBrano(valore) { //UNUSED
+function addRowToTableBrano(artista,brano,durata) { //UNUSED
     var table = document.getElementById("tabSuggerimentiBody");
     var row = table.insertRow(0);
     var cell1 = row.insertCell(0);
-    cell1.innerHTML = valore.properties.title;
+    cell1.innerHTML = (parseFloat(durata)/60).toFixed(2) + "m";
     var cell2 = row.insertCell(0);
-    cell2.innerHTML = valore.properties.duration;
+    cell2.innerHTML = artista;
+    var cell3 = row.insertCell(0);
+    cell3.innerHTML = brano;
 
 }
 

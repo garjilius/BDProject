@@ -98,6 +98,12 @@ function matchAnnoBrano(nomeBrano) {
 }
 
 
+function matchBrani(nomeBrano) {
+    flushTable();
+    let query = 'Match (track:Music)<-[r:OWNS]-(artist:Artist) WHERE track.title = \'Columbia\' RETURN DISTINCT artist.name, track.title, track.duration';
+    runQueryBrano(query);
+}
+
 
 
 function runQuery(query) {
@@ -124,10 +130,16 @@ function runQueryBrano(query) {
     const result = session.run(query);
     result.subscribe({
         onNext: record => {
-            const name = record.get(0);
+            const artistName = record.get(0);
+            const trackName = record.get(1);
+            const trackDuration = record.get(2);
+
             //collectedNames.push(name);
-            addRowToTableBrano(name);
-            console.log(name);
+            addRowToTableBrano(artistName,trackName,trackDuration);
+            //console.log(artistName);
+          //  console.log(trackName);
+          //  console.log(trackDuration);
+
         },
         onCompleted: () => {
             session.close();
@@ -137,6 +149,7 @@ function runQueryBrano(query) {
         }
     });
 }
+
 
 
 
