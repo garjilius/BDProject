@@ -6,8 +6,8 @@ function filtroArtistaBrano() {
 
         document.getElementById("divSimilitudine").innerHTML = "        <legend>Scegli i criteri di similitudine</legend>\n" +
             "        <div class=\"btn-group btn-group-toggle\" data-toggle=\"buttons\">\n" +
-            "            <label class=\"btn btn-primary\">\n" +
-            "                <input type=\"radio\" name=\"options1\" id=\"checkGenere\" autocomplete=\"off\"> Genere\n" +
+            "            <label class=\"btn btn-primary active\">\n" +
+            "                <input type=\"radio\" name=\"options1\" id=\"checkGenere\" autocomplete=\"off\" checked> Genere\n" +
             "            </label>\n" +
             "            <label class=\"btn btn-primary\">\n" +
             "                <input type=\"radio\" name=\"options1\" id=\"checkGruppo\" autocomplete=\"off\"> Gruppo\n" +

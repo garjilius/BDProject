@@ -10,13 +10,17 @@ function rightQuery(){
     let checkBrano = document.getElementById("checkBrano").checked;
 
     //Seconda Selezione
-    let checkGenere = document.getElementById("checkGenere").checked;
-    let checkGruppo = document.getElementById("checkGruppo").checked;
 
+
+    if(!checkArtista && !checkBrano) {
+        alert("Selezionare se si desidera basare la ricerca su brani o artisti");
+    }
 
     let chiaveRicerca = document.getElementById("barraRicerca").value;
 
     if(checkArtista) {
+        let checkGenere = document.getElementById("checkGenere").checked;
+        let checkGruppo = document.getElementById("checkGruppo").checked;
         console.log('checkArtista');
         if(checkGenere) {
             console.log("genere");
@@ -25,8 +29,13 @@ function rightQuery(){
         if(checkGruppo) {
             matchToSimilarBand(chiaveRicerca);
         }
+        if(!checkGenere && !checkGruppo) {
+            alert("Selezionare se si desidera basare la ricerca sul genere del gruppo o sulla 'similitudine' tra i gruppi");
+        }
     }
     if(checkBrano) {
+        let checkGenere = document.getElementById("checkGenere").checked;
+        let checkGruppo = document.getElementById("checkGruppo").checked;
         let checkAnno = document.getElementById("checkAnno").checked;
         let checkDurata = document.getElementById("checkDurata").checked;
         if(checkGenere) {
@@ -41,31 +50,34 @@ function rightQuery(){
         if(checkGruppo) {
             matchGruppoSimileBrano(chiaveRicerca);
         }
+        if(!checkGenere && !checkGruppo && !checkAnno && !checkDurata) {
+            alert("Selezionare uno dei criteri tra genere, gruppo simile, anno e durata");
+        }
     }
 }
 
 function matchToSimilarBand(nomeBand) {
 //const collectedNames = [];
-    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\'})-[r:SIMILAR_TO]->(artist2:Artist) RETURN DISTINCT artist2.name LIMIT 20';
+    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\'})-[r:SIMILAR_TO]->(artist2:Artist) RETURN DISTINCT artist2.name LIMIT 10';
     runQuery(query);
 }
 
 function matchGenereBand(nomeBand) {
     flushTable();
 //const collectedNames = [];
-    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\' })-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(artist2:Artist) RETURN DISTINCT artist2.name LIMIT 20';
+    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\' })-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(artist2:Artist) RETURN DISTINCT artist2.name LIMIT 10';
     runQuery(query);
 }
 
 function matchGenereBrano(nomeBrano) {
 //const collectedNames = [];
-    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[r:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (artist:Artist)-[:OWNS]->(track2) RETURN DISTINCT artist.name LIMIT 20';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[r:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (artist:Artist)-[:OWNS]->(track2) RETURN DISTINCT artist.name LIMIT 10';
     runQuery(query);
 }
 
 function matchGruppoSimileBrano(nomeBrano) {
 //const collectedNames = [];
-    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})<-[owns:OWNS]-(artist:Artist)-[similar:SIMILAR_TO]->(similarArtist:Artist) RETURN DISTINCT similarArtist.name LIMIT 20';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})<-[owns:OWNS]-(artist:Artist)-[similar:SIMILAR_TO]->(similarArtist:Artist) RETURN DISTINCT similarArtist.name LIMIT 10';
     runQuery(query);
 }
 
@@ -74,14 +86,14 @@ function matchDurataSimile(nomeBrano) {
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})\n' +
         'MATCH (track2:Music) WHERE toInt(track2.duration)-toInt(track.duration) <30 \n' +
         'MATCH (track2) WHERE  toInt(track.duration)-toInt(track2.duration) <30 \n' +
-        'Return DISTINCT track2.title LIMIT 20';
+        'MATCH (track2)<-[owned:OWNS]-(artist:Artist) Return DISTINCT artist.name LIMIT 10';
     runQuery(query);
 }
 
 function matchAnnoBrano(nomeBrano) {
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})-[:RELEASED_IN]->(year1:Year) \n' +
-        'Match (track2:Music)-[r:RELEASED_IN]->(year2:Year {year:year1.year}) RETURN DISTINCT track2.title LIMIT 20';
+        'Match (track2:Music)-[r:RELEASED_IN]->(year2:Year {year:year1.year}) RETURN DISTINCT track2.title LIMIT 10';
     runQuery(query);
 }
 
