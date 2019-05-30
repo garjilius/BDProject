@@ -13,7 +13,6 @@ function addRowToTableBrano(valore) { //UNUSED
     var cell2 = row.insertCell(0);
     cell2.innerHTML = valore.properties.duration;
 
-
 }
 
 function flushTable() {
