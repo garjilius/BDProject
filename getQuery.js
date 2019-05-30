@@ -38,6 +38,9 @@ function rightQuery(){
         if(checkDurata) {
             matchDurataSimile(chiaveRicerca);
         }
+        if(checkGruppo) {
+            matchGruppoSimileBrano(chiaveRicerca);
+        }
     }
 }
 
@@ -62,7 +65,7 @@ function matchGenereBrano(nomeBrano) {
 
 function matchGruppoSimileBrano(nomeBrano) {
 //const collectedNames = [];
-    let query = 'DA FARE';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})<-[owns:OWNS]-(artist:Artist)-[similar:SIMILAR_TO]->(similarArtist:Artist) RETURN DISTINCT similarArtist.name LIMIT 20';
     runQuery(query);
 }
 
