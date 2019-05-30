@@ -100,7 +100,7 @@ function matchAnnoBrano(nomeBrano) {
 
 function matchBrani(nomeBrano) {
     flushTable();
-    let query = 'Match (track:Music)<-[r:OWNS]-(artist:Artist) WHERE track.title = \'Columbia\' RETURN DISTINCT artist.name, track.title, track.duration';
+    let query = 'Match (track:Music)<-[r:OWNS]-(artist:Artist) WHERE track.title = \''+nomeBrano+'\' RETURN DISTINCT artist.name, track.title, track.duration';
     runQueryBrano(query);
 }
 
