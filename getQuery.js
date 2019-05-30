@@ -100,7 +100,7 @@ function matchAnnoBrano(nomeBrano) {
 
 function matchBrani(nomeBrano) {
     flushTable();
-    let query = 'Match (track:Music)<-[r:OWNS]-(artist:Artist) WHERE track.title = \''+nomeBrano+'\' RETURN DISTINCT artist.name, track.title, track.duration';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (track2)<-[:OWNS]-(artist2:Artist) return distinct artist2.name, track2.title, track2.duration LIMIT 20';
     runQueryBrano(query);
 }
 
