@@ -57,13 +57,23 @@ td{
     text-align: center !important;
 }
 
-.tab-contentOverride {
+tab-contentOverride {
     width: 80%;
     max-width: 100%;
+    min-width: 80% !important;
 }
 
 thead {text-align: center;}
 
+.table {
+    margin: auto;
+    width: 80% !important;
+}
+
+table.center {
+    margin-left:auto;
+    margin-right:auto;
+}
 
 /* Set black background color, white text and some padding */
 footer {

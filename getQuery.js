@@ -58,34 +58,34 @@ function rightQuery(){
 
 function matchToSimilarBand(nomeBand) {
 //const collectedNames = [];
-    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\'})-[r:SIMILAR_TO]->(artist2:Artist) RETURN DISTINCT artist2.name LIMIT 10';
+    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\'})-[r:SIMILAR_TO]->(artist2:Artist) MATCH (artist2)-[:CREATED]->(album:Album) RETURN DISTINCT artist2.name, count(*) as numeroAlbum LIMIT 20';
     runQuery(query);
 }
 
 function matchGenereBand(nomeBand) {
     flushTable();
 //const collectedNames = [];
-    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\' })-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(artist2:Artist) RETURN DISTINCT artist2.name LIMIT 10';
+    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\' })-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(artist2:Artist) MATCH (artist2)-[:CREATED]->(album:Album) RETURN DISTINCT artist2.name, count(*) as numeroAlbum LIMIT 20';
     runQuery(query);
 }
 
 function matchGenereBrano(nomeBrano) {
 //const collectedNames = [];
-    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[r:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (artist:Artist)-[:OWNS]->(track2) RETURN DISTINCT artist.name LIMIT 10';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[r:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (artist:Artist)-[:OWNS]->(track2) MATCH (artist)-[:CREATED]->(album:Album) RETURN DISTINCT artist.name, count(*) as numeroAlbum LIMIT 20';
     runQuery(query);
 }
 
 function matchGruppoSimileBrano(nomeBrano) {
 //const collectedNames = [];
-    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})<-[owns:OWNS]-(artist:Artist)-[similar:SIMILAR_TO]->(similarArtist:Artist) RETURN DISTINCT similarArtist.name LIMIT 10';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})<-[owns:OWNS]-(artist:Artist)-[similar:SIMILAR_TO]->(similarArtist:Artist) MATCH (similarArtist)-[:CREATED]->(album:Album) RETURN DISTINCT similarArtist.name, count(*) as numeroAlbum LIMIT 20 LIMIT 10';
     runQuery(query);
 }
 
-function matchDurataSimile(nomeBrano) {
+function matchDurataSimile(nomeBrano) { //BUGGATA, DA RIVEDERE TOTALMENTE
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})\n' +
         'MATCH (track2:Music) WHERE toInt(track2.duration)-toInt(track.duration) <30 \n' +
-        'MATCH (track2) WHERE  toInt(track.duration)-toInt(track2.duration) <30 \n' +
+        'AND toInt(track.duration)-toInt(track2.duration) <30 \n' +
         'MATCH (track2)<-[owned:OWNS]-(artist:Artist) Return DISTINCT artist.name LIMIT 10';
     runQuery(query);
 }
@@ -112,8 +112,10 @@ function runQuery(query) {
     result.subscribe({
         onNext: record => {
             const name = record.get(0);
+            const numAlbum = record.get(1);
+
             //collectedNames.push(name);
-            addRowToTable(name);
+            addRowToTable(name,numAlbum);
         },
         onCompleted: () => {
             session.close();
