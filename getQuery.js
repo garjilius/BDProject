@@ -90,10 +90,12 @@ function matchDurataSimile(nomeBrano) { //BUGGATA, DA RIVEDERE TOTALMENTE
     runQuery(query);
 }
 
+//Non Funziona
 function matchAnnoBrano(nomeBrano) {
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})-[:RELEASED_IN]->(year1:Year) \n' +
-        'Match (track2:Music)-[r:RELEASED_IN]->(year2:Year {year:year1.year}) RETURN DISTINCT track2.title LIMIT 10';
+        'Match (track2:Music)-[r:RELEASED_IN]->(year2:Year {year: year1.year })' +
+        ' Match (track2)-[:OWNS]-(artist:Artist) RETURN DISTINCT artist.name, count(*) as numeroAlbum LIMIT 20';
     runQuery(query);
 }
 
