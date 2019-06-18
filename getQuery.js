@@ -65,7 +65,7 @@ function matchToSimilarBand(nomeBand) {
 function matchGenereBand(nomeBand) {
     flushTable();
 //const collectedNames = [];
-    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\' })-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(artist2:Artist) MATCH (artist2)-[:CREATED]->(album:Album) RETURN DISTINCT artist2.name, count(*) as numeroAlbum LIMIT 20';
+    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\' })-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(artist2:Artist) MATCH (artist2)-[:CREATED]->(album:Album) RETURN DISTINCT artist2.name, count(distinct album) as numeroAlbum LIMIT 20';
     runQuery(query);
 }
 
@@ -183,7 +183,7 @@ function anniProlifici() {
         onNext: record => {
             const year = record.get(0);
             const numTracks = record.get(1)
-            risultato = "Il genere che ha più brani è '"+year+"', con "+ numTracks + " brani";
+            risultato = "Il l'anno in cui sono stati rilasciati più brani è il '"+year+"', con "+ numTracks + " brani";
         },
         onCompleted: () => {
             console.log(risultato);
@@ -207,6 +207,49 @@ function artistaProlifico() {
             const artista = record.get(0);
             const numAlbums = record.get(1)
             risultato = "L'artista che ha rilasciato più album è '"+artista+"', con "+ numAlbums + " brani";
+        },
+        onCompleted: () => {
+            console.log(risultato);
+            addRowToStatsTable(risultato);
+            session.close();
+            annoMedioBrani();
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+}
+
+function annoMedioBrani() {
+    query = "Match (artist:Artist)-[:OWNS]-(album:Music)-[:RELEASED_IN]-(year:Year) return toInt(avg(year.year))";
+    addRowToQueryTable(query);
+    const result = session.run(query);
+    result.subscribe({
+        onNext: record => {
+            const anno = record.get(0);
+            risultato = "L'anno medio di rilascio dei brani è: "+anno;
+        },
+        onCompleted: () => {
+            console.log(risultato);
+            addRowToStatsTable(risultato);
+            session.close();
+            braniDateEstreme();
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+}
+
+function braniDateEstreme() {
+    query = "Match (track:Music)-[:RELEASED_IN]-(year:Year) Match (artist:Artist)-[:OWNS]->(track) return min(year.year), max(year.year)";
+    addRowToQueryTable(query);
+    const result = session.run(query);
+    result.subscribe({
+        onNext: record => {
+            const anno1 = record.get(0);
+            const anno2 = record.get(1);
+            risultato = "Il brano più vecchio presente nel database è del "+anno1+", mentre quello più recente è del "+anno2;
         },
         onCompleted: () => {
             console.log(risultato);
