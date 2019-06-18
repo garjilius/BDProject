@@ -128,7 +128,6 @@ function runQuery(query) {
     });
 }
 
-//INUTILIZZATA
 function runQueryBrano(query) {
     addRowToQueryTable(query);
     const result = session.run(query);
@@ -154,7 +153,70 @@ function runQueryBrano(query) {
 
 //_________QUERY STATISTICHE___________
 
+function generiDiffusi() {
+    query = "Match (track:Music)-[:HAS_GENRE]->(genre:Genre) return genre.name, count (genre.name) as conto ORDER BY conto DESC Limit 1";
+    addRowToQueryTable(query);
+    const result = session.run(query);
+    result.subscribe({
+        onNext: record => {
+            const genreName = record.get(0);
+            const numTracks = record.get(1)
+            risultato = "Il genere che ha più brani è '"+genreName+"', con "+ numTracks + " brani";
+        },
+        onCompleted: () => {
+            console.log(risultato);
+            addRowToStatsTable(risultato);
+            session.close();
+            anniProlifici();
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+}
+
+function anniProlifici() {
+    query = "Match (track:Music)-[:RELEASED_IN]->(year:Year) return year.year, count (year.year) as conto ORDER BY conto DESC skip 1 Limit 1";
+    addRowToQueryTable(query);
+    const result = session.run(query);
+    result.subscribe({
+        onNext: record => {
+            const year = record.get(0);
+            const numTracks = record.get(1)
+            risultato = "Il genere che ha più brani è '"+year+"', con "+ numTracks + " brani";
+        },
+        onCompleted: () => {
+            console.log(risultato);
+            addRowToStatsTable(risultato);
+            artistaProlifico();
+            session.close();
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+}
 
 
+function artistaProlifico() {
+    query = "Match (album:Album)-[:CREATED]-(artist:Artist) return artist.name, count (distinct album.name) as conto ORDER BY conto DESC Limit 1";
+    addRowToQueryTable(query);
+    const result = session.run(query);
+    result.subscribe({
+        onNext: record => {
+            const artista = record.get(0);
+            const numAlbums = record.get(1)
+            risultato = "L'artista che ha rilasciato più album è '"+artista+"', con "+ numAlbums + " brani";
+        },
+        onCompleted: () => {
+            console.log(risultato);
+            addRowToStatsTable(risultato);
+            session.close();
+        },
+        onError: error => {
+            console.log(error);
+        }
+    });
+}
 
 

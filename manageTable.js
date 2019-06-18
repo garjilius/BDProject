@@ -34,3 +34,10 @@ function addRowToQueryTable(query) {
     var cell1 = row.insertCell(0);
     cell1.innerHTML = query;
 }
+
+function addRowToStatsTable(result) {
+    var table = document.getElementById("tabSuggerimentiBody");
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    cell1.innerHTML = result;
+}
