@@ -152,6 +152,8 @@ function runQueryBrano(query) {
     });
 }
 
+//_________QUERY STATISTICHE___________
+
 
 
 

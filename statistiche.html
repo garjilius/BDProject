@@ -32,13 +32,13 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Cerca Artisti</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ricercaBrani.html">Cerca Brani<span class="sr-only">(current)</span></a>
+            </li>
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">Cerca Artisti<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="ricercaBrani.html">Cerca Brani</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="statistiche.html">Statistiche<span class="sr-only">(current)</span></a>
             </li>
         </ul>
@@ -49,28 +49,13 @@
     <div class="container"><BR><BR>
         <h1 class="fa fa-music text-primary">Music</h1 ><h1 class="fa fa-music text-danger">Finder</h1> <BR>
         <h2><i class="fas fa-microphone-alt"></i>
-       Trova artisti adatti ai tuoi gusti!
-            <BR><small class="text-muted fas fa-filter">Per prima cosa, seleziona un artista/gruppo o un brano di riferimento</small>
+       Sapevi che...
         </h2>
     </div>
 
-    <div class="container-fluid text-center">
-        <legend>Scegli se filtrare per brano o per artista</legend>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="myVar = setTimeout(filtroArtistaBrano, 100)">
-            <label class="btn btn-secondary">
-                <input type="radio" name="options" id="checkArtista" autocomplete="off" > Artista
-            </label>
-            <label class="btn btn-secondary">
-                <input type="radio" name="options" id="checkBrano" autocomplete="off" > Brano
-            </label>
-        </div>
-    </div>
-
-    <div class="container-fluid text-center" id="divSimilitudine" >
-    </div>
 
 </div>
-
+<!--
 <div class="container-fluid text-center container">
     <br/>
     <div class="row justify-content-center">
@@ -80,36 +65,36 @@
                         <div class="col-auto">
                             <i class="fas fa-search h4 text-body"></i>
                         </div>
-                        <!--end of col-->
                         <div class="col">
                             <input class="form-control form-control-lg form-control-borderless" id="barraRicerca" type="search" placeholder="Nome album o brano">
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-lg btn-success" onclick="rightQuery()">Search</button>
+                            <button type="button" class="btn btn-lg btn-success" onclick="matchBrani(document.getElementById('barraRicerca').value)">Search</button>
                         </div>
                     </div>
                 </form>
         </div>
-        <!--end of col-->
     </div>
-</div>
+</div> -->
 
-<div class="container center text-center" id="suggerimentiDIV"><BR><BR><BR>
+<div class="container tab-contentOverride" id="suggerimentiDIV"><BR><BR><BR>
     <div class="table-responsive">
-        <table id="tabSuggerimenti" class="center table-striped tab-contentOverride table-bordered table table-hover table-responsive">
+        <table id="tabSuggerimenti" class="table-striped table-bordered table table-hover table-responsive">
             <thead class="thead-dark">
             <tr>
-                <th colspan="2"  id="thSuggerimenti"><h3>Artisti suggeriti per te:</h3>   </th>
+                <th style="width: 5.0%" colspan="4" id="thSuggerimenti"><h3>Brani suggeriti per te:</h3>   </th>
             </tr>
             </thead>
             <thead class="thead-dark">
             <tr>
-                <th style="width: 40.0%" >Artista</th>
-                <th style="width: 40.0%" >Numero di Album</th>
+                <th style="width: 25.0%" >Brano</th>
+                <th style="width: 25.0%" >album</th>
+                <th style="width: 25.0%" >artista</th>
+                <th style="width: 25.0%" >durata</th>
             </tr>
             </thead>
             <tbody id="tabSuggerimentiBody">
-            <tr><td>Qui verranno mostrati gli artisti consigliati per te</td><td></td></tr>
+            <tr><td></td><td>Qui verranno mostrati i brani consigliati per te<td></td><td></td></tr>
             </tbody>
         </table>
     </div>
@@ -120,7 +105,7 @@
         <table id="tabQuery" class="table-striped table-bordered table table-hover table-responsive">
             <thead class="thead-dark">
             <tr>
-                <th style="width: 5.0%" id="thQuery"><h3>Lista Query:</h3>   </th>
+                <th  style="width: 5.0%" id="thQuery "><h3>Lista Query:</h3>   </th>
             </tr>
             </thead>
             <tbody id="tableQueryBody">
