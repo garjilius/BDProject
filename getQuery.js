@@ -81,7 +81,7 @@ function matchGruppoSimileBrano(nomeBrano) {
     runQuery(query);
 }
 
-function matchDurataSimile(nomeBrano) { 
+function matchDurataSimile(nomeBrano) {
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})\n' +
         'MATCH (track2:Music) WHERE toFloat(track2.duration)-toFloat(track.duration) <30 \n' +
@@ -94,7 +94,7 @@ function matchAnnoBrano(nomeBrano) {
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})-[:RELEASED_IN]->(year1:Year) \n' +
         'Match (track2:Music)-[r:RELEASED_IN]->(year2:Year {year: year1.year })' +
-        ' Match (track2)-[:OWNS]-(artist:Artist) RETURN DISTINCT artist.name, count(*) as numeroAlbum LIMIT 20';
+        ' Match (track2)-[:OWNS]-(artist:Artist) RETURN DISTINCT artist.name, count(*) as numeroAlbum, avg(toFloat(track2.duration)) as durataMedia LIMIT 20';
     runQuery(query);
 }
 
