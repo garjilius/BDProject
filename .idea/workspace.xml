@@ -67,7 +67,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manageTable.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
@@ -76,11 +76,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/getQuery.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-309">
-              <caret line="67" column="307" selection-start-line="67" selection-start-column="307" selection-end-line="67" selection-end-column="307" />
+            <state relative-caret-position="253">
+              <caret line="79" column="200" selection-start-line="79" selection-start-column="200" selection-end-line="79" selection-end-column="200" />
             </state>
           </provider>
         </entry>
@@ -132,8 +132,8 @@
         <option value="$PROJECT_DIR$/ricercaBrani.html" />
         <option value="$PROJECT_DIR$/statistiche.html" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/getQuery.js" />
         <option value="$PROJECT_DIR$/manageTable.js" />
+        <option value="$PROJECT_DIR$/getQuery.js" />
       </list>
     </option>
   </component>
@@ -233,7 +233,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38524000" />
+    <option name="totallyTimeSpent" value="39078000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="830" extended-state="6" />
@@ -369,17 +369,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/getQuery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-309">
-          <caret line="67" column="307" selection-start-line="67" selection-start-column="307" selection-end-line="67" selection-end-column="307" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/manageTable.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="52" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/getQuery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="79" column="200" selection-start-line="79" selection-start-column="200" selection-end-line="79" selection-end-column="200" />
         </state>
       </provider>
     </entry>

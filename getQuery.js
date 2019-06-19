@@ -71,13 +71,13 @@ function matchGenereBand(nomeBand) {
 
 function matchGenereBrano(nomeBrano) {
 //const collectedNames = [];
-    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[r:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (artist:Artist)-[:OWNS]->(track2) MATCH (artist)-[:CREATED]->(album:Album) RETURN DISTINCT artist.name, count(*) as numeroAlbum LIMIT 20';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})-[r:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(track2:Music) MATCH (artist:Artist)-[:OWNS]->(track2) MATCH (artist)-[:CREATED]->(album:Album) RETURN DISTINCT artist.name, count(*) as numeroAlbum, avg(toFloat(track2.duration)) as durataMedia LIMIT 20';
     runQuery(query);
 }
 
 function matchGruppoSimileBrano(nomeBrano) {
 //const collectedNames = [];
-    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})<-[owns:OWNS]-(artist:Artist)-[similar:SIMILAR_TO]->(similarArtist:Artist) MATCH (similarArtist)-[:CREATED]->(album:Album) RETURN DISTINCT similarArtist.name, count(*) as numeroAlbum LIMIT 20';
+    let query = 'MATCH (track:Music {title:\''+nomeBrano+'\'})<-[owns:OWNS]-(artist:Artist)-[similar:SIMILAR_TO]->(similarArtist:Artist) MATCH (similarArtist)-[:CREATED]->(album:Album) MATCH (similarArtist)-[:OWNS]->(track2:Music) RETURN DISTINCT similarArtist.name, count(*) as numeroAlbum, avg(toFloat(track2.duration)) as durataMedia LIMIT 20';
     runQuery(query);
 }
 
@@ -90,7 +90,6 @@ function matchDurataSimile(nomeBrano) { //BUGGATA, DA RIVEDERE TOTALMENTE
     runQuery(query);
 }
 
-//Non Funziona
 function matchAnnoBrano(nomeBrano) {
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})-[:RELEASED_IN]->(year1:Year) \n' +
