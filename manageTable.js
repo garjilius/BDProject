@@ -2,7 +2,7 @@ function addRowToTable(artista,numAlbum,durataMedia) {
     var table = document.getElementById("tabSuggerimentiBody");
     var row = table.insertRow(0);
     var cell2 = row.insertCell(0);
-    cell2.innerHTML = durataMedia.toFixed(2)+"s";
+    cell2.innerHTML = (durataMedia/60).toFixed(2)+"m";
     cell2.style.width = '25%';
     var cell0 = row.insertCell(0);
     cell0.innerHTML = numAlbum;

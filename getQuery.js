@@ -65,7 +65,7 @@ function matchToSimilarBand(nomeBand) {
 function matchGenereBand(nomeBand) {
     flushTable();
 //const collectedNames = [];
-    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\' })-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(artist2:Artist) MATCH (artist2)-[:CREATED]->(album:Album) RETURN DISTINCT artist2.name, count(distinct album) as numeroAlbum LIMIT 20';
+    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\' })-[:HAS_GENRE]->(genre:Genre)<-[:HAS_GENRE]-(artist2:Artist) MATCH (artist2)-[:CREATED]->(album:Album) MATCH (artist2)-[:OWNS]->(track:Music) return distinct artist2.name, count(album) as numeroAlbum, avg(toFloat(track.duration)) as durataMedia LIMIT 20';
     runQuery(query);
 }
 
