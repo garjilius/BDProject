@@ -1,6 +1,9 @@
-function addRowToTable(artista,numAlbum,durataMedia) {
+function addRowToTable(artista,numAlbum,durataMedia,durataTotale) {
     var table = document.getElementById("tabSuggerimentiBody");
     var row = table.insertRow(0);
+    var cell3 = row.insertCell(0);
+    cell3.innerHTML = (durataMedia/60).toFixed(2)+"m";
+    cell3.style.width = '25%';
     var cell2 = row.insertCell(0);
     cell2.innerHTML = (durataMedia/60).toFixed(2)+"m";
     cell2.style.width = '25%';
@@ -9,7 +12,7 @@ function addRowToTable(artista,numAlbum,durataMedia) {
     cell0.style.width = '25%';
     var cell1 = row.insertCell(0);
     cell1.innerHTML = artista;
-    cell1.style.width = '50%';
+    cell1.style.width = '49%';
 }
 
 function addRowToTableBrano(artista,brano,durata,album) {
