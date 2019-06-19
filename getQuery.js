@@ -81,12 +81,12 @@ function matchGruppoSimileBrano(nomeBrano) {
     runQuery(query);
 }
 
-function matchDurataSimile(nomeBrano) { //BUGGATA, DA RIVEDERE TOTALMENTE
+function matchDurataSimile(nomeBrano) { 
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})\n' +
         'MATCH (track2:Music) WHERE toFloat(track2.duration)-toFloat(track.duration) <30 \n' +
         'AND toFloat(track.duration)-toFloat(track2.duration) <30 \n' +
-        'MATCH (track2)<-[owned:OWNS]-(artist:Artist) Return DISTINCT artist.name, count(*) as numeroAlbum LIMIT 10';
+        'MATCH (track2)<-[owned:OWNS]-(artist:Artist) Return DISTINCT artist.name, count(*) as numeroAlbum, avg(toFloat(track2.duration)) as durataMedia LIMIT 10';
     runQuery(query);
 }
 
