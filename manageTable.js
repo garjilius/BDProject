@@ -2,7 +2,13 @@ function addRowToTable(artista,numAlbum,durataMedia,durataTotale) {
     var table = document.getElementById("tabSuggerimentiBody");
     var row = table.insertRow(0);
     var cell3 = row.insertCell(0);
-    cell3.innerHTML = (durataTotale/60).toFixed(2)+"m";
+    durataTotale = (durataTotale/60).toFixed(2);
+    if(durataTotale>60) {
+        durataH = parseInt(durataTotale/60);
+        durataM = parseInt(durataTotale-(60*durataH));
+        durataTotale = durataH + "h:"+durataM;
+    }
+    cell3.innerHTML = durataTotale+"m";
     cell3.style.width = '17%';
     var cell2 = row.insertCell(0);
     cell2.innerHTML = (durataMedia/60).toFixed(2)+"m";
