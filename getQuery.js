@@ -58,7 +58,7 @@ function rightQuery(){
 
 function matchToSimilarBand(nomeBand) {
 //const collectedNames = [];
-    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\'})-[r:SIMILAR_TO]->(artist2:Artist) MATCH (artist2)-[:CREATED]->(album:Album) RETURN DISTINCT artist2.name, count(*) as numeroAlbum LIMIT 20';
+    let query = 'MATCH (artist1:Artist {name:\''+nomeBand+'\'})-[r:SIMILAR_TO]->(artist2:Artist) MATCH (artist2)-[:CREATED]->(album:Album) MATCH (artist2)-[:OWNS]->(track:Music) return distinct artist2.name, count(album) as numeroAlbum, avg(toFloat(track.duration)) as durataMedia LIMIT 20';
     runQuery(query);
 }
 
@@ -115,9 +115,10 @@ function runQuery(query) {
         onNext: record => {
             const name = record.get(0);
             const numAlbum = record.get(1);
+            const durataMedia = record.get(2);
 
             //collectedNames.push(name);
-            addRowToTable(name,numAlbum);
+            addRowToTable(name,numAlbum,durataMedia);
         },
         onCompleted: () => {
             session.close();

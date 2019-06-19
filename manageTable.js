@@ -1,12 +1,15 @@
-function addRowToTable(artista,numAlbum) {
+function addRowToTable(artista,numAlbum,durataMedia) {
     var table = document.getElementById("tabSuggerimentiBody");
     var row = table.insertRow(0);
+    var cell2 = row.insertCell(0);
+    cell2.innerHTML = durataMedia.toFixed(2)+"s";
+    cell2.style.width = '25%';
     var cell0 = row.insertCell(0);
     cell0.innerHTML = numAlbum;
-    cell0.style.width = '40%';
+    cell0.style.width = '25%';
     var cell1 = row.insertCell(0);
     cell1.innerHTML = artista;
-    cell1.style.width = '40%';
+    cell1.style.width = '50%';
 }
 
 function addRowToTableBrano(artista,brano,durata,album) {
