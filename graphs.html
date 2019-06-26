@@ -54,22 +54,16 @@
     </div>
 
     <div class="container-fluid text-center">
-        <legend>Seleziona il numero di anni in base a cui raggruppare e seleziona un anno di partenza</legend>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="">
-            <label class="btn btn-secondary">
-                <input type="radio" name="options" id="range2" value="2" autocomplete="off" > 2
-            </label>
-            <label class="btn btn-secondary">
-                <input type="radio" name="options" id="range3" value="3" autocomplete="off" > 3
-            </label>
-            <label class="btn btn-secondary">
-                <input type="radio" name="options" id="range5" value="5" autocomplete="off" > 5
-            </label>
-            <label class="btn btn-secondary">
-                <input type="radio" name="options" id="range10" value="10" autocomplete="off" > 10
-            </label>
-        </div>
 
+        <label for="selectRange">Dimensione del range </label>
+        <select id="selectRange">
+            <option>2</option>
+            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+        </select>
+
+        <label for="selectAnni">Anno di Partenza</label>
         <select id="selectAnni">//POPOLATA IN JS </select>
 
     </div>
@@ -78,13 +72,14 @@
         <legend>Seleziona un criterio in base a cui raggruppare</legend>
         <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="">
             <label class="btn btn-secondary">
-                <input type="radio" name="options" id="groupGenere" autocomplete="off" > Genere
+                <input type="radio" name="options" class="criterioraggruppamento" value="genere" id="groupGenere" autocomplete="off" > Genere
             </label>
         </div>
     </div>
 <BR>
     <div class="container-fluid text-center">
-        <button type="button" class="btn btn-primary" id="buttonSearch">Cerca</button>
+        <button type="button" class="btn btn-primary" id="buttonSearch" onclick="cerca()">Cerca</button>
+        <button type="button" class="btn btn-danger" id="buttonDel" onclick="clearGraph()">CancellaGrafico</button>
     </div>
 
 </div>
@@ -98,6 +93,7 @@
 </html>
 
 <Script>
+
     $(document).ready(function () {
         popolaSelectAnni();
         //anniGeneri(2000,2001);
@@ -118,7 +114,7 @@
    }
 
 
-    function anniGeneri(startyear, endyear) {
+    function graficoAnniGeneri(startyear, endyear) {
         query = "Match (track:Music)-[:RELEASED_IN]->(year:Year) where year.year>="+startyear+" and year.year<="+endyear+"\n" +
             "Match (track)-[:HAS_GENRE]-(genre:Genre)\n" +
             "WITH collect(distinct genre.name) as generi, collect(distinct year.year) as years, track as traccia\n" +
@@ -149,9 +145,6 @@
 
     function popolaSelectAnni() {
     var x = document.getElementById("selectAnni");
-    var option = document.createElement("option");
-    option.text = "Kiwi";
-    option.valu
         for(i = 1950; i<=2010;i++) {
             var option = document.createElement("option");
             option.text = i;
@@ -160,8 +153,37 @@
         }
     }
 
-    function callRightRange() {
 
+    function cerca() {
+       let criterioraggruppamento = "";
+       let radiocriterio = document.getElementsByClassName("criterioraggruppamento");
+       let rangeanni = document.getElementById("selectRange").value;
+       let annoPartenza = document.getElementById("selectAnni").value;
+
+
+        for(i = 0; i< radiocriterio.length;i++) {
+                if (radiocriterio[i].checked) {
+                    criterioraggruppamento = radiocriterio[i].value;
+                }
+            }
+
+       /* console.log("range anni:" + rangeanni);
+        console.log("Anno partenza:" + annoPartenza);
+        console.log("Criterio Raggruppamento:" + criterioraggruppamento); */
+
+        let annoFine = parseInt(annoPartenza)+parseInt(rangeanni)-1;
+
+        for(i = 0; i < 5; i++) {
+            graficoAnniGeneri(annoPartenza,annoFine);
+            console.log(annoPartenza+"--"+annoFine);
+            annoPartenza = parseInt(annoPartenza)+parseInt(rangeanni);
+            annoFine = parseInt(annoFine)+parseInt(rangeanni);
+        }
+    }
+
+    function clearGraph()
+    {
+        Plotly.purge('graph1');
     }
 </Script>
 
