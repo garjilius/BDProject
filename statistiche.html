@@ -161,7 +161,7 @@
     function graficoAnniGeneri(startyear, endyear) {
         query = "Match (track:Music)-[:RELEASED_IN]->(year:Year) where year.year>="+startyear+" and year.year<="+endyear+"\n" +
             "Match (track)-[:HAS_GENRE]-(genre:Genre)\n" +
-            "WITH collect(distinct genre.name) as generi, collect(distinct year.year) as years, track as traccia\n" +
+            "WITH collect(distinct genre.name) as generi, track as traccia\n" +
             "UNWIND generi as genere\n" +
             "Match (traccia)-[:HAS_GENRE]-(genre2:Genre) WHERE genre2.name = genere\n" +
             "With count(genere) as ContoPerGenere, genere order by ContoPerGenere DESC limit 5\n" +
@@ -181,7 +181,7 @@
                 console.log(conti);
                 console.log(generi);
                 hideShowLoad();
-                creategraph(generi,conti, startyear+"-"+endyear);
+                creategraph(generi,conti, startyear+"-"+endyear, "Generi con più release" );
                 session.close();
             },
             onError: error => {
@@ -213,7 +213,7 @@
                 console.log(conti);
                 console.log(generi);
                 hideShowLoad();
-                creategraph(generi,conti, startyear+"-"+endyear);
+                creategraph(generi,conti, startyear+"-"+endyear, "Artisti con più release");
                 session.close();
             },
             onError: error => {
@@ -256,10 +256,10 @@
         for(i = 0; i < 5; i++) {
             console.log(typeof criterioraggruppamento + " - " + criterioraggruppamento);
             if(criterioraggruppamento==0) {
-                graficoAnniGeneri(annoPartenza, annoFine, "Numero di brani per ogni genere nel corso degli anni");
+                graficoAnniGeneri(annoPartenza, annoFine,);
             }
             else if (criterioraggruppamento==1) {
-                graficoAnniArtisti(annoPartenza, annoFine, "Numero di brani per ogni artista nel corso degli anni");
+                graficoAnniArtisti(annoPartenza, annoFine);
             }
             console.log(annoPartenza+"--"+annoFine);
             annoPartenza = parseInt(annoPartenza)+parseInt(rangeanni);
