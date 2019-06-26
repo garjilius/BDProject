@@ -39,7 +39,7 @@
                 <a class="nav-link" href="ricercaBrani.html">Cerca Brani<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="OLDstatistiche.html">Statistiche<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="statistiche.html">Statistiche<span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
@@ -90,6 +90,20 @@
     <div id="loadDiv"> <IMG class="center" SRC="images/loading.gif"></div>
 </div>
 
+<div class="container tab-contentOverride" id="suggerimentiDIV"><BR><BR><BR>
+    <div class="table-responsive">
+        <table id="tabSuggerimenti" class="table-striped table-bordered table table-hover table-responsive">
+            <thead class="thead-dark">
+            <tr>
+                <th  id="thSuggerimenti"><h3>Statistiche Interessanti</h3>   </th>
+            </tr>
+            <tbody id="tabSuggerimentiBody">
+            <tr><td></td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <div class="container tab-contentOverride" id="queriesDIV"><BR><BR><BR>
     <div class="table-responsive">
         <table id="tabQuery" class="table-striped table-bordered table table-hover table-responsive">
@@ -111,8 +125,8 @@
 
     $(document).ready(function () {
         popolaSelectAnni();
+        generiDiffusi();
         hideShowLoad();
-        //anniGeneri(2000,2001);
     });
 
    function creategraph(x,y,rangeAnni) {
