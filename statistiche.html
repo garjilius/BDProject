@@ -9,7 +9,7 @@
     <script src="getQuery.js"></script>
     <script src="manageTable.js"></script>
     <script src="utilities.js"></script>
-
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 
     <!--SEARCHTHEME-->
@@ -39,7 +39,7 @@
                 <a class="nav-link" href="ricercaBrani.html">Cerca Brani<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="statistiche.html">Statistiche<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="OLDstatistiche.html">Statistiche<span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
@@ -49,46 +49,45 @@
     <div class="container"><BR><BR>
         <h1 class="fa fa-music text-primary">Music</h1 ><h1 class="fa fa-music text-danger">Finder</h1> <BR>
         <h2><i class="fas fa-microphone-alt"></i>
-       Sapevi che...
+       Statistiche
         </h2>
     </div>
 
+    <div class="container-fluid text-center">
 
-</div>
-<!--
-<div class="container-fluid text-center container">
-    <br/>
-    <div class="row justify-content-center">
-        <div class="col-lg-8" id="divBarraRicerca">
-                <form class="card card-sm">
-                    <div class="card-body row no-gutters align-items-center">
-                        <div class="col-auto">
-                            <i class="fas fa-search h4 text-body"></i>
-                        </div>
-                        <div class="col">
-                            <input class="form-control form-control-lg form-control-borderless" id="barraRicerca" type="search" placeholder="Nome album o brano">
-                        </div>
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-lg btn-success" onclick="matchBrani(document.getElementById('barraRicerca').value)">Search</button>
-                        </div>
-                    </div>
-                </form>
+        <label for="selectRange">Dimensione del range </label>
+        <select id="selectRange">
+            <option>2</option>
+            <option>5</option>
+            <option>10</option>
+            <option>20</option>
+        </select>
+
+        <label for="selectAnni">Anno di Partenza</label>
+        <select id="selectAnni">//POPOLATA IN JS </select>
+
+    </div>
+<BR>
+    <div class="container-fluid text-center">
+        <legend>Seleziona un criterio in base a cui raggruppare</legend>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="">
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" class="criterioraggruppamento" value="genere" id="groupGenere" autocomplete="off" > Genere
+            </label>
         </div>
     </div>
-</div> -->
-
-<div class="container tab-contentOverride" id="suggerimentiDIV"><BR><BR><BR>
-    <div class="table-responsive">
-        <table id="tabSuggerimenti" class="table-striped table-bordered table table-hover table-responsive">
-            <thead class="thead-dark">
-            <tr>
-                <th  id="thSuggerimenti"><h3>Statistiche Interessanti</h3>   </th>
-            </tr>
-            <tbody id="tabSuggerimentiBody">
-            <tr><td></td></tr>
-            </tbody>
-        </table>
+<BR>
+    <div class="container-fluid text-center">
+        <button type="button" class="btn btn-primary" id="buttonSearch" onclick="cerca()">Cerca</button>
+        <button type="button" class="btn btn-danger" id="buttonDel" onclick="clearGraph()">CancellaGrafico</button>
     </div>
+
+</div>
+
+
+<div class="container-fluid text center container"><BR><BR><BR>
+    <div id="graph1"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div id="loadDiv"> <IMG class="center" SRC="images/loading.gif"></div>
 </div>
 
 <div class="container tab-contentOverride" id="queriesDIV"><BR><BR><BR>
@@ -104,13 +103,118 @@
         </table>
     </div>
 </div>
+
 </body>
 </html>
 
 <Script>
+
     $(document).ready(function () {
-    generiDiffusi();
+        popolaSelectAnni();
+        hideShowLoad();
+        //anniGeneri(2000,2001);
     });
 
+   function creategraph(x,y,rangeAnni) {
+       data = [
+           {
+               histfunc: "sum",
+               y: y,
+               x: x,
+               type: "histogram",
+               name: rangeAnni
+           }
+       ]
+
+       Plotly.plot('graph1', data, {}, {showSendToCloud: true})
+   }
+
+
+    function graficoAnniGeneri(startyear, endyear) {
+        query = "Match (track:Music)-[:RELEASED_IN]->(year:Year) where year.year>="+startyear+" and year.year<="+endyear+"\n" +
+            "Match (track)-[:HAS_GENRE]-(genre:Genre)\n" +
+            "WITH collect(distinct genre.name) as generi, collect(distinct year.year) as years, track as traccia\n" +
+            "UNWIND generi as genere\n" +
+            "Match (traccia)-[:HAS_GENRE]-(genre2:Genre) WHERE genre2.name = genere\n" +
+            "With count(genere) as ContoPerGenere, genere order by ContoPerGenere DESC limit 5\n" +
+            "return collect(toString(ContoPerGenere)), collect(genere)";
+
+        hideShowLoad();
+        addRowToQueryTable(query);
+        let conti = "";
+        let generi = "";
+        const result = session.run(query);
+        result.subscribe({
+            onNext: record => {
+                conti = record.get(0);
+                generi = record.get(1);
+            },
+            onCompleted: () => {
+                console.log(conti);
+                console.log(generi);
+                hideShowLoad();
+                creategraph(generi,conti, startyear+"-"+endyear);
+                session.close();
+            },
+            onError: error => {
+                console.log(error);
+            }
+        });
+    }
+
+    function popolaSelectAnni() {
+    var x = document.getElementById("selectAnni");
+        for(i = 1950; i<=2010;i++) {
+            var option = document.createElement("option");
+            option.text = i;
+            option.value = i;
+            x.add(option);
+        }
+    }
+
+
+    function cerca() {
+       let criterioraggruppamento = "";
+       let radiocriterio = document.getElementsByClassName("criterioraggruppamento");
+       let rangeanni = document.getElementById("selectRange").value;
+       let annoPartenza = document.getElementById("selectAnni").value;
+
+
+        for(i = 0; i< radiocriterio.length;i++) {
+                if (radiocriterio[i].checked) {
+                    criterioraggruppamento = radiocriterio[i].value;
+                }
+            }
+
+       /* console.log("range anni:" + rangeanni);
+        console.log("Anno partenza:" + annoPartenza);
+        console.log("Criterio Raggruppamento:" + criterioraggruppamento); */
+
+        let annoFine = parseInt(annoPartenza)+parseInt(rangeanni)-1;
+
+        for(i = 0; i < 5; i++) {
+            graficoAnniGeneri(annoPartenza,annoFine);
+            console.log(annoPartenza+"--"+annoFine);
+            annoPartenza = parseInt(annoPartenza)+parseInt(rangeanni);
+            annoFine = parseInt(annoFine)+parseInt(rangeanni);
+        }
+    }
+
+    function clearGraph()
+    {
+        Plotly.purge('graph1');
+    }
+
+    function hideShowLoad() {
+        var x = document.getElementById("loadDiv");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
+
 </Script>
+
 

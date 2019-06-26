@@ -35,10 +35,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.html">Cerca Artisti</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="ricercaBrani.html">Cerca Brani<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="OLDstatistiche.html">Statistiche<span class="sr-only">(current)</span></a>
             </li>
         </ul>
@@ -49,14 +49,13 @@
     <div class="container"><BR><BR>
         <h1 class="fa fa-music text-primary">Music</h1 ><h1 class="fa fa-music text-danger">Finder</h1> <BR>
         <h2><i class="fas fa-microphone-alt"></i>
-       Trova brani adatti ai tuoi gusti!
-            <BR><small class="text-muted fas fa-filter">Inserisci un brano da usare come riferimento</small>
+       Sapevi che...
         </h2>
     </div>
 
 
 </div>
-
+<!--
 <div class="container-fluid text-center container">
     <br/>
     <div class="row justify-content-center">
@@ -66,7 +65,6 @@
                         <div class="col-auto">
                             <i class="fas fa-search h4 text-body"></i>
                         </div>
-                        <!--end of col-->
                         <div class="col">
                             <input class="form-control form-control-lg form-control-borderless" id="barraRicerca" type="search" placeholder="Nome album o brano">
                         </div>
@@ -76,28 +74,18 @@
                     </div>
                 </form>
         </div>
-        <!--end of col-->
     </div>
-</div>
+</div> -->
 
 <div class="container tab-contentOverride" id="suggerimentiDIV"><BR><BR><BR>
     <div class="table-responsive">
         <table id="tabSuggerimenti" class="table-striped table-bordered table table-hover table-responsive">
             <thead class="thead-dark">
             <tr>
-                <th style="width: 5.0%" colspan="4" id="thSuggerimenti"><h3>Brani suggeriti per te:</h3>   </th>
+                <th  id="thSuggerimenti"><h3>Statistiche Interessanti</h3>   </th>
             </tr>
-            </thead>
-            <thead class="thead-dark">
-            <tr>
-                <th style="width: 25.0%" >Brano</th>
-                <th style="width: 25.0%" >album</th>
-                <th style="width: 25.0%" >artista</th>
-                <th style="width: 25.0%" >durata</th>
-            </tr>
-            </thead>
             <tbody id="tabSuggerimentiBody">
-            <tr><td></td><td>Qui verranno mostrati i brani consigliati per te<td></td><td></td></tr>
+            <tr><td></td></tr>
             </tbody>
         </table>
     </div>
@@ -120,7 +108,9 @@
 </html>
 
 <Script>
-
+    $(document).ready(function () {
+    generiDiffusi();
+    });
 
 </Script>
 
