@@ -71,8 +71,11 @@
     <div class="container-fluid text-center">
         <legend>Seleziona un criterio in base a cui raggruppare</legend>
         <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="">
+            <label class="btn btn-secondary active">
+                <input type="radio" name="options" class="criterioraggruppamento" checked="true" value=0 id="groupGenere" autocomplete="off" > Genere
+            </label>
             <label class="btn btn-secondary">
-                <input type="radio" name="options" class="criterioraggruppamento" value="genere" id="groupGenere" autocomplete="off" > Genere
+                <input type="radio" name="options" class="criterioraggruppamento" value=1 id="groupArtista" autocomplete="off" > Artista
             </label>
         </div>
     </div>
@@ -176,6 +179,38 @@
         });
     }
 
+    function graficoAnniArtisti(startyear, endyear) {
+        query = "Match (track:Music)-[:RELEASED_IN]->(year:Year) where year.year>="+startyear+" and year.year<="+endyear+"\n" +
+            "Match (track)<-[:OWNS]-(artist:Artist)\n" +
+            "WITH collect(distinct artist.name) as artisti, track as traccia\n" +
+            "UNWIND artisti as artista\n" +
+            "Match (traccia)<-[:OWNS]-(artist2:Artist) WHERE artist2.name = artista\n" +
+            "With count(artista) as ContoPerArtista, artista order by ContoPerArtista DESC limit 5\n" +
+            "return collect(toString(ContoPerArtista)), collect(artista)";
+
+        hideShowLoad();
+        addRowToQueryTable(query);
+        let conti = "";
+        let generi = "";
+        const result = session.run(query);
+        result.subscribe({
+            onNext: record => {
+                conti = record.get(0);
+                generi = record.get(1);
+            },
+            onCompleted: () => {
+                console.log(conti);
+                console.log(generi);
+                hideShowLoad();
+                creategraph(generi,conti, startyear+"-"+endyear);
+                session.close();
+            },
+            onError: error => {
+                console.log(error);
+            }
+        });
+    }
+
     function popolaSelectAnni() {
     var x = document.getElementById("selectAnni");
         for(i = 1950; i<=2010;i++) {
@@ -188,7 +223,7 @@
 
 
     function cerca() {
-       let criterioraggruppamento = "";
+       let criterioraggruppamento = 0;
        let radiocriterio = document.getElementsByClassName("criterioraggruppamento");
        let rangeanni = document.getElementById("selectRange").value;
        let annoPartenza = document.getElementById("selectAnni").value;
@@ -196,7 +231,7 @@
 
         for(i = 0; i< radiocriterio.length;i++) {
                 if (radiocriterio[i].checked) {
-                    criterioraggruppamento = radiocriterio[i].value;
+                    criterioraggruppamento = parseInt(radiocriterio[i].value);
                 }
             }
 
@@ -207,7 +242,13 @@
         let annoFine = parseInt(annoPartenza)+parseInt(rangeanni)-1;
 
         for(i = 0; i < 5; i++) {
-            graficoAnniGeneri(annoPartenza,annoFine);
+            console.log(typeof criterioraggruppamento + " - " + criterioraggruppamento);
+            if(criterioraggruppamento==0) {
+                graficoAnniGeneri(annoPartenza, annoFine);
+            }
+            else if (criterioraggruppamento==1) {
+                graficoAnniArtisti(annoPartenza, annoFine);
+            }
             console.log(annoPartenza+"--"+annoFine);
             annoPartenza = parseInt(annoPartenza)+parseInt(rangeanni);
             annoFine = parseInt(annoFine)+parseInt(rangeanni);
