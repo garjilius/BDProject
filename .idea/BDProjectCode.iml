@@ -11,5 +11,6 @@
     <orderEntry type="library" name="neo4j-web" level="application" />
     <orderEntry type="library" name="jquery-3.2.1" level="application" />
     <orderEntry type="library" name="popper" level="application" />
+    <orderEntry type="library" name="plotly-latest" level="application" />
   </component>
 </module>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- Direct reference -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.rawgit.com/neo4j/neo4j-javascript-driver/1.4/lib/browser/neo4j-web.min.js"></script>
+    <script src="gestioneBottoni.js"></script>
+    <script src="getQuery.js"></script>
+    <script src="manageTable.js"></script>
+    <script src="utilities.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+    <!--SEARCHTHEME-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="extra.css" rel="stylesheet" id="extra-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">MusicFinder</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="index.html">Cerca Artisti</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ricercaBrani.html">Cerca Brani<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="statistiche.html">Statistiche<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container-fluid text-center">
+    <div class="container"><BR><BR>
+        <h1 class="fa fa-music text-primary">Music</h1 ><h1 class="fa fa-music text-danger">Finder</h1> <BR>
+        <h2><i class="fas fa-microphone-alt"></i>
+       Statistiche
+        </h2>
+    </div>
+
+    <div class="container-fluid text-center">
+        <legend>Seleziona il numero di anni in base a cui raggruppare e seleziona un anno di partenza</legend>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="">
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="range2" value="2" autocomplete="off" > 2
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="range3" value="3" autocomplete="off" > 3
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="range5" value="5" autocomplete="off" > 5
+            </label>
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="range10" value="10" autocomplete="off" > 10
+            </label>
+        </div>
+
+        <select id="selectAnni">//POPOLATA IN JS </select>
+
+    </div>
+<BR>
+    <div class="container-fluid text-center">
+        <legend>Seleziona un criterio in base a cui raggruppare</legend>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons"  onclick="">
+            <label class="btn btn-secondary">
+                <input type="radio" name="options" id="groupGenere" autocomplete="off" > Genere
+            </label>
+        </div>
+    </div>
+<BR>
+    <div class="container-fluid text-center">
+        <button type="button" class="btn btn-primary" id="buttonSearch">Cerca</button>
+    </div>
+
+</div>
+
+
+<div class="container-fluid text center container"><BR><BR><BR>
+    <div id="graph1"><!-- Plotly chart will be drawn inside this DIV --></div>
+
+</div>
+</body>
+</html>
+
+<Script>
+    $(document).ready(function () {
+        popolaSelectAnni();
+        //anniGeneri(2000,2001);
+    });
+
+   function creategraph(x,y,rangeAnni) {
+       data = [
+           {
+               histfunc: "sum",
+               y: y,
+               x: x,
+               type: "histogram",
+               name: rangeAnni
+           }
+       ]
+
+       Plotly.plot('graph1', data, {}, {showSendToCloud: true})
+   }
+
+
+    function anniGeneri(startyear, endyear) {
+        query = "Match (track:Music)-[:RELEASED_IN]->(year:Year) where year.year>="+startyear+" and year.year<="+endyear+"\n" +
+            "Match (track)-[:HAS_GENRE]-(genre:Genre)\n" +
+            "WITH collect(distinct genre.name) as generi, collect(distinct year.year) as years, track as traccia\n" +
+            "UNWIND generi as genere\n" +
+            "Match (traccia)-[:HAS_GENRE]-(genre2:Genre) WHERE genre2.name = genere\n" +
+            "With count(genere) as ContoPerGenere, genere order by ContoPerGenere DESC limit 5\n" +
+            "return collect(toString(ContoPerGenere)), collect(genere)";
+
+        let conti = "";
+        let generi = "";
+        const result = session.run(query);
+        result.subscribe({
+            onNext: record => {
+                conti = record.get(0);
+                generi = record.get(1);
+            },
+            onCompleted: () => {
+                console.log(conti);
+                console.log(generi);
+                creategraph(generi,conti, startyear+"-"+endyear);
+                session.close();
+            },
+            onError: error => {
+                console.log(error);
+            }
+        });
+    }
+
+    function popolaSelectAnni() {
+    var x = document.getElementById("selectAnni");
+    var option = document.createElement("option");
+    option.text = "Kiwi";
+    option.valu
+        for(i = 1950; i<=2010;i++) {
+            var option = document.createElement("option");
+            option.text = i;
+            option.value = i;
+            x.add(option);
+        }
+    }
+
+    function callRightRange() {
+
+    }
+</Script>
+
+

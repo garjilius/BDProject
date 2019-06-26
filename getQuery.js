@@ -184,7 +184,7 @@ function anniProlifici() {
         onNext: record => {
             const year = record.get(0);
             const numTracks = record.get(1)
-            risultato = "Il l'anno in cui sono stati rilasciati più brani è il '"+year+"', con "+ numTracks + " brani";
+            risultato = "L'anno in cui sono stati rilasciati più brani è il '"+year+"', con "+ numTracks + " brani";
         },
         onCompleted: () => {
             console.log(risultato);
@@ -207,7 +207,7 @@ function artistaProlifico() {
         onNext: record => {
             const artista = record.get(0);
             const numAlbums = record.get(1)
-            risultato = "L'artista che ha rilasciato più album è '"+artista+"', con "+ numAlbums + " brani";
+            risultato = "L'artista che ha rilasciato più album è '"+artista+"', con "+ numAlbums + " album";
         },
         onCompleted: () => {
             console.log(risultato);
@@ -262,5 +262,11 @@ function braniDateEstreme() {
         }
     });
 }
+
+//Query Per Grafici
+
+//Genere per X anni
+
+
 
 
