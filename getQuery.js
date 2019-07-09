@@ -99,7 +99,9 @@ function matchAnnoBrano(nomeBrano) {
 //const collectedNames = [];
     let query = 'Match (track:Music {title:\''+nomeBrano+'\'})-[:RELEASED_IN]->(year1:Year) \n' +
         'Match (track2:Music)-[r:RELEASED_IN]->(year2:Year {year: year1.year })' +
-        ' Match (track2)-[:OWNS]-(artist:Artist) RETURN DISTINCT artist.name, count(*) as numeroAlbum, avg(toFloat(track2.duration)) as durataMedia, sum(toFloat(track2.duration)) as durataTotale LIMIT 20';
+        'Match (track2)-[:OWNS]-(artist:Artist) ' +
+        'MATCH (artist)-[:CREATED]->(album:Album)' +
+        'RETURN DISTINCT artist.name, count(distinct album) as numeroAlbum, avg(toFloat(track2.duration)) as durataMedia, sum(toFloat(track2.duration)) as durataTotale LIMIT 20';
     runQuery(query);
 }
 
