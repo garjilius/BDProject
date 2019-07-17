@@ -155,7 +155,7 @@ function runQueryBrano(query) {
 //_________QUERY STATISTICHE___________
 
 function generiDiffusi() {
-    query = "Match (track:Music)-[:HAS_GENRE]->(genre:Genre) return genre.name, count (distinct genre.name) as conto ORDER BY conto DESC Limit 1";
+    query = "Match (track:Music)-[:HAS_GENRE]->(genre:Genre) return genre.name, count (distinct track.title) as conto ORDER BY conto DESC Limit 1";
     addRowToQueryTable(query);
     const result = session.run(query);
     result.subscribe({
@@ -177,7 +177,7 @@ function generiDiffusi() {
 }
 
 function anniProlifici() {
-    query = "Match (track:Music)-[:RELEASED_IN]->(year:Year) return year.year, count (distinct year.year) as conto ORDER BY conto DESC skip 1 Limit 1";
+    query = "Match (track:Music)-[:RELEASED_IN]->(year:Year) return year.year, count (distinct track.title) as conto ORDER BY conto DESC skip 1 Limit 1";
     addRowToQueryTable(query);
     const result = session.run(query);
     result.subscribe({
